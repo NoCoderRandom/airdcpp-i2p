@@ -17,10 +17,10 @@ jobs:
       fail-fast: false
       matrix:
         compiler: [clang, gcc]
-        os: [ubuntu-24.04, macos-15]
+        os: [ubuntu-24.04, macos-26]
         exclude:
         # Not testing with GCC on macOS.
-        - os: macos-15
+        - os: macos-26
           compiler: gcc
         # TODO
         - os: ubuntu-24.04
@@ -38,7 +38,7 @@ jobs:
       OPENSSL_ROOT_DIR: /usr/local/opt/openssl/
       
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
       with:
         fetch-depth: 0
         fetch-tags: true
@@ -56,14 +56,6 @@ jobs:
         brew upgrade
         brew install boost libmaxminddb leveldb libnatpmp miniupnpc openssl pkg-config tbb nlohmann-json
         export OPENSSL_ROOT_DIR=/usr/local/opt/openssl/
-
-    - name: Install websocketpp
-      run: |
-        git clone -b develop https://github.com/amini-allight/websocketpp.git
-        cd websocketpp
-        cmake .
-        sudo make install
-        cd ..
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
